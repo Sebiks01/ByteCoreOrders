@@ -1,0 +1,42 @@
+{
+  "coreGuildId": ["949266894588874782"],
+  "testGuildId": ["949266894588874782"],
+  "debug": false,
+
+  "products": [
+    {
+      "roleId": "1094989603905208432",
+      "paymentMethods": ["blik"],
+      "currency": "pln",
+      "productName": "ByteCore",
+      "price": 50000,
+      "quantity": 1,
+      "success_url": "http://localhost:3000/success",
+      "cancel_url": "http://localhost:3000/cancel",
+      "license": {
+        "productId": 55,
+        "description": "Test description.",
+        "addressLimit": 0,
+        "addressDuration": 0,
+        "addons": [0, 1]
+      }
+    },
+    {
+      "roleId": "1094989603905208432",
+      "paymentMethods": ["blik"],
+      "currency": "pln",
+      "productName": "ByteCore",
+      "price": 50000,
+      "quantity": 1,
+      "success_url": "http://localhost:3000/success",
+      "cancel_url": "http://localhost:3000/cancel",
+      "license": {
+        "productId": 55,
+        "description": "Test description.",
+        "addressLimit": 0,
+        "addressDuration": 0,
+        "addons": [0, 1]
+      }
+    }
+  ]
+}

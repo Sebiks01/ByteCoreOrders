@@ -1,0 +1,88 @@
+{
+  "dashboard": {
+    "productsDashboard": [
+      {
+        "content": "Wybierz produkt, który chcesz zakupić:",
+        "embeds": [
+          {
+            "title": "ByteCore - 500zł",
+            "description": "Zamów już dzisiaj - jedyny niezwykły i niezawodny taki plugin na światowym rynku!\n\nMetody płatności: PP/Blik/CC\n\nObsługa płatności: Stripe\n\n**Po zaksięgowaniu wpłaty licencja zostanie nadana automatycznie**",
+            "color": 65504,
+            "footer": {
+              "text": "ByteCore@2024"
+            }
+          }
+        ],
+        "button": {
+          "label": "Zakup już teraz!",
+          "emoji": "🔥",
+          "style": 3
+        }
+      },
+      {
+        "button": {
+          "label": "Zakup już teraz! - 2",
+          "emoji": "🔥",
+          "style": 3
+        }
+      }
+    ],
+
+    "messages": {
+      "invalidChannel": {
+        "content": "Podany kanał jest nieprawidłowy. Spróbuj ponownie."
+      },
+
+      "dashboardSent": {
+        "content": "Pomyślnie wysłano panel."
+      },
+
+      "error": {
+        "content": "Wystąpił błąd podczas wysyłania panelu."
+      },
+
+      "fetchingPayment": {
+        "content": "Pobieram dane płatności..."
+      },
+
+      "paymentLink": {
+        "embeds": [
+          {
+            "title": "ByteCore Orders",
+            "description": "Link do płatności: [Kliknij tutaj](%paymentLink%)\n\n**Po zaksięgowaniu wpłaty licencja zostanie nadana automatycznie**",
+            "color": 65504,
+            "footer": {
+              "text": "ByteCore@2024"
+            }
+          }
+        ]
+      },
+
+      "paymentError": {
+        "content": "Wystąpił błąd podczas generowania linku płatności."
+      },
+
+      "alreadyPurchased": {
+        "content": "Posiadasz już zakupioną licencję."
+      }
+    }
+  },
+
+  "misc": {
+    "reloading": {
+      "content": "Przeładowuję..."
+    },
+
+    "reloaded": {
+      "content": "Pomyślnie przeładowano."
+    },
+
+    "error": {
+      "content": "Wystąpił błąd podczas przeładowywania."
+    },
+
+    "uknownCommand": {
+      "content": "Ta komenda jest przestarzała."
+    }
+  }
+}
