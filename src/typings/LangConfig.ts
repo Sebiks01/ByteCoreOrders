@@ -8,6 +8,11 @@ export type LangConfigType = {
       button: ButtonComponentType;
     }[];
 
+    dmPaymentMessage: {
+      content?: string;
+      embeds?: EmbedType[];
+    };
+
     messages: {
       invalidChannel: {
         content?: string;
@@ -30,6 +35,7 @@ export type LangConfigType = {
       };
 
       paymentLink: {
+        "//": string;
         content?: string;
         embeds?: EmbedType[];
       };
@@ -43,6 +49,20 @@ export type LangConfigType = {
         content?: string;
         embeds?: EmbedType[];
       };
+    };
+  };
+
+  logs: {
+    successfullOrders: {
+      "//": string;
+      content?: string;
+      embeds?: EmbedType[];
+    };
+
+    givenLicenses: {
+      "//": string;
+      content?: string;
+      embeds?: EmbedType[];
     };
   };
 
@@ -100,18 +120,6 @@ type EmbedThumbnailType = {
   proxy_url?: string;
   height?: number;
   width?: number;
-};
-
-type EmbedVideoType = {
-  url?: string;
-  proxy_url?: string;
-  height?: number;
-  width?: number;
-};
-
-type EmbedProviderType = {
-  name?: string;
-  url?: string;
 };
 
 type EmbedAuthorType = {

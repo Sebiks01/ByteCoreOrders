@@ -1,11 +1,12 @@
 import * as bodyParser from "body-parser";
 import StripeLib from "stripe";
 import express from "express";
+import { APIEmbed, ChannelType } from "discord.js";
 
 import openedOrdersSchema, { OpenedOrders } from "../models/openedOrders";
 import successfulPaymentsSchema from "../models/successfulPayments";
 import { ByteCoreOrdersClient } from "./ByteCoreOrdersClient";
-import { error, info, success, warn } from "../util/logger";
+import { error, info, success, warn, debug } from "../util/logger";
 import { LicenseAPI } from "./LicenseAPI";
 
 export class Stripe {
@@ -161,6 +162,52 @@ export class Stripe {
             upsert: true,
           }
         );
+
+        try {
+          const coreGuildsId = ByteCoreOrdersClient.instance.config?.coreGuildId;
+          const logChannelsId = ByteCoreOrdersClient.instance.config?.successfullOrdersLogChannelId;
+
+          if (!coreGuildsId || coreGuildsId.length < 1 || !logChannelsId || logChannelsId.length < 1) return;
+
+          coreGuildsId.forEach(async (guildId) => {
+            const guild = await ByteCoreOrdersClient.instance.guilds.fetch(guildId);
+
+            if (!guild) return;
+
+            logChannelsId.forEach(async (channelId) => {
+              const channel = await guild.channels.fetch(channelId);
+
+              if (!channel || channel.type != ChannelType.GuildText) return;
+
+              const content = ByteCoreOrdersClient.instance.lang?.logs.successfullOrders.content
+                ?.slice()
+                ?.replaceAll("%username%", data.username)
+                ?.replaceAll("%userId%", data.userId)
+                ?.replaceAll("%sessionId%", session.id)
+                ?.replaceAll("%price%", ((session.amount_total || 0) / 100).toString())
+                ?.replaceAll("%currency%", session.currency || "")
+                ?.replaceAll("%status%", session.status || "");
+
+              const embeds = ByteCoreOrdersClient.instance.lang?.logs.successfullOrders.embeds?.slice();
+
+              embeds?.forEach(
+                (embed) =>
+                  (embed.description = embed.description
+                    ?.replaceAll("%username%", data.username)
+                    ?.replaceAll("%userId%", data.userId)
+                    ?.replaceAll("%sessionId%", session.id)
+                    ?.replaceAll("%price%", ((session.amount_total || 0) / 100).toString())
+                    ?.replaceAll("%currency%", session.currency || "")
+                    ?.replaceAll("%status%", session.status || ""))
+              );
+
+              await channel.send({ content, embeds: embeds as APIEmbed[] });
+            });
+          });
+        } catch (err) {
+          debug("Failed to send logs for successfull payments.");
+          debug(`${err}`);
+        }
 
         await this._licenseAPI.addLicense(data, session.id, session.customer_email || " ");
       }

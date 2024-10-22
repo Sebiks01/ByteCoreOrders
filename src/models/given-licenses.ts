@@ -38,7 +38,6 @@ export type GivenLicenses = {
   customerEmail: string;
   price: number;
   currency: string;
-  status: string;
   license: {
     productId: number;
     description: string;

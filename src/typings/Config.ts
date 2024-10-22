@@ -1,6 +1,8 @@
 export type ConfigType = {
   coreGuildId: string[];
   testGuildId: string[];
+  successfullOrdersLogChannelId: string[];
+  givenLicensesLogChannelId: string[];
   debug: boolean;
 
   products: {

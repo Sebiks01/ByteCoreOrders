@@ -1,9 +1,10 @@
 import axios from "axios";
+import { APIEmbed, ChannelType } from "discord.js";
 
 import { ByteCoreOrdersClient } from "./ByteCoreOrdersClient";
 import givenLicensesSchema from "../models/given-licenses";
 import { OpenedOrders } from "../models/openedOrders";
-import { error, info, warn } from "../util/logger";
+import { error, info, warn, debug } from "../util/logger";
 
 export class LicenseAPI {
   private _token: string;
@@ -68,5 +69,71 @@ export class LicenseAPI {
     });
 
     info(`Added license for ${username} (${userId}).`);
+
+    try {
+      const coreGuildsId = ByteCoreOrdersClient.instance.config?.coreGuildId;
+      const logChannelsId = ByteCoreOrdersClient.instance.config?.givenLicensesLogChannelId;
+
+      if (!coreGuildsId || coreGuildsId.length < 1 || !logChannelsId || logChannelsId.length < 1) return;
+
+      coreGuildsId.forEach(async (guildId) => {
+        const guild = await ByteCoreOrdersClient.instance.guilds.fetch(guildId);
+
+        if (!guild) return;
+
+        logChannelsId.forEach(async (channelId) => {
+          const channel = await guild.channels.fetch(channelId);
+
+          if (!channel || channel.type != ChannelType.GuildText) return;
+
+          const content = ByteCoreOrdersClient.instance.lang?.logs.givenLicenses.content
+            ?.slice()
+            ?.replaceAll("%username%", username)
+            ?.replaceAll("%userId%", userId)
+            ?.replaceAll("%sessionId%", sessionId)
+            ?.replaceAll("%price%", (data.price / 100).toString())
+            ?.replaceAll("%currency%", data.currency)
+            ?.replaceAll("%productId%", config?.productId.toString() || "")
+            ?.replaceAll("%productDescription%", config?.description || "")
+            ?.replaceAll("%addressLimit%", config?.addressLimit.toString() || "")
+            ?.replaceAll("%addressDuration%", config?.addressDuration.toString() || "")
+            ?.replaceAll("%addons%", config?.addons.join(", ") || "");
+
+          const embeds = ByteCoreOrdersClient.instance.lang?.logs.givenLicenses.embeds?.slice();
+
+          embeds?.forEach(
+            (embed) =>
+              (embed.description = embed.description
+                ?.replaceAll("%sessionId%", sessionId)
+                ?.replaceAll("%price%", (data.price / 100).toString())
+                ?.replaceAll("%currency%", data.currency)
+                ?.replaceAll("%productId%", config?.productId.toString() || "")
+                ?.replaceAll("%productDescription%", config?.description || "")
+                ?.replaceAll("%addressLimit%", config?.addressLimit.toString() || "")
+                ?.replaceAll("%addressDuration%", config?.addressDuration.toString() || "")
+                ?.replaceAll("%addons%", config?.addons.join(", ") || ""))
+          );
+
+          await channel.send({ content, embeds: embeds as APIEmbed[] });
+        });
+      });
+    } catch (err) {
+      debug("Failed to send logs for given licenses.");
+      debug(`${err}`);
+    }
+
+    try {
+      const user = await ByteCoreOrdersClient.instance.users.fetch(userId);
+
+      if (!user) return;
+
+      await user.send({
+        content: ByteCoreOrdersClient.instance.lang?.dashboard.dmPaymentMessage.content,
+        embeds: ByteCoreOrdersClient.instance.lang?.dashboard.dmPaymentMessage.embeds as APIEmbed[],
+      });
+    } catch (err) {
+      debug("Failed to send user dm for given licenses.");
+      debug(`${err}`);
+    }
   }
 }

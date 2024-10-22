@@ -28,6 +28,17 @@
       }
     ],
 
+    "dmPaymentMessage": {
+      "embeds": [{
+        "title": "ByteCore Orders",
+        "description": "🗃️ Płatność została potwierdzona oraz zaksięgowana.\n\n🔑  Licencja została pomyślnie nadana.",
+        "color": 720640,
+        "footer": {
+          "text": "ByteCore@2024"
+        }
+      }]
+    },
+
     "messages": {
       "invalidChannel": {
         "content": "Podany kanał jest nieprawidłowy. Spróbuj ponownie."
@@ -46,6 +57,8 @@
       },
 
       "paymentLink": {
+        "//": "Placeholders: %paymentLink%",
+
         "embeds": [
           {
             "title": "ByteCore Orders",
@@ -65,6 +78,38 @@
       "alreadyPurchased": {
         "content": "Posiadasz już zakupioną licencję."
       }
+    }
+  },
+
+  "logs": {
+    "successfullOrders": {
+      "//": "Placeholders: %userId% %username% %sessionId% %price% %currency% %status%",
+
+      "embeds": [
+        {
+          "title": "ByteCore Orders",
+          "description": "**Odnotowano płatność od <@%userId%> (%userId%).**\n\nID Sesji: %sessionId%\nZapłacono: %price%\nWaluta: %currency%\nStatus Transakcji: %status%",
+          "color": 720640,
+          "footer": {
+            "text": "ByteCore@2024"
+          }
+        }
+      ]
+    },
+
+    "givenLicenses": {
+      "//": "Placeholders: %userId% %username% %sessionId% %price% %currency% %productId% %productDescription% %addressLimit% %addressDuration% %addons%",
+
+      "embeds": [
+        {
+          "title": "ByteCore Orders",
+          "description": "**Nadano licencje dla <@%userId%> (%userId%).**\n\nID Sesji: %sessionId%\nCena: %price%\nWaluta: %currency%\n\n**Licencja:**\n\nID Produktu: %productId%\nOpis Produktu: %productDescription%\nLimit adresów: %addressLimit%\nCzas: %addressDuration%\nID Dodatków: %addons%",
+          "color": 41983,
+          "footer": {
+            "text": "ByteCore@2024"
+          }
+        }
+      ]
     }
   },
 

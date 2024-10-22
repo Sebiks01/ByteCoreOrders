@@ -1,6 +1,8 @@
 {
   "coreGuildId": ["949266894588874782"],
-  "testGuildId": ["949266894588874782"],
+  "testGuildId": [""],
+  "successfullOrdersLogChannelId": ["1165685990455791729"],
+  "givenLicensesLogChannelId": ["1165685990455791729"],
   "debug": false,
 
   "products": [
