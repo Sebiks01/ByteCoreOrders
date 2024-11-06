@@ -104,6 +104,8 @@ export class LicenseAPI {
           embeds?.forEach(
             (embed) =>
               (embed.description = embed.description
+                ?.replaceAll("%username%", username)
+                ?.replaceAll("%userId%", userId)
                 ?.replaceAll("%sessionId%", sessionId)
                 ?.replaceAll("%price%", (data.price / 100).toString())
                 ?.replaceAll("%currency%", data.currency)
